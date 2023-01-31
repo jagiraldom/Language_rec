@@ -8,10 +8,9 @@ def scan_test(text_file:str, language="en")->str:
     with open(text_file, 'r', encoding='utf-8') as file:
         text = (file.readlines())
     all_words = "".join(text)
-    
+    all_words = all_words.lower()
     for code in alphabets[f"non_alphabetic_{language}"]:
         all_words = all_words.replace(chr(code), "")
-    all_words = all_words.lower()
 
     return all_words
 
