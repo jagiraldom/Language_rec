@@ -1,7 +1,12 @@
-from alphabets import alphabets
+import os.path # To handle paths
+from alphabets import alphabets # Base alphabets
 
 def scan_model(text_file:str, language="en")->dict:
 
+    """
+    Reads 'text_file' in 'language' format, clears nonalphabetic symbols and counts frequencies
+    """
+    
     with open(text_file, 'r', encoding='utf-8') as file:
         text = (file.readlines())
     all_words = "".join(text)
@@ -18,11 +23,9 @@ def scan_model(text_file:str, language="en")->dict:
     
     return hist
 
-en_model = scan_model("en_train.txt", "en")
-es_model = scan_model("es_train.txt", "es")
+en_model = scan_model(os.path.join("Train_data","en_train.txt"), "en") # Trained frecuencies English
+es_model = scan_model(os.path.join("Train_data","es_train.txt"), "es") # Trained frecuencias Spanish
 
-print(es_model, en_model, sep="\n\n") # agregar formato para imprimir
 if __name__ == "__main__":
-    pass
-    #print(scan_model("sample.txt"))
-    #print(scan_model("sample.txt", "es"))
+    print("Collected probabilities for Spanish model",es_model, sep="\n\n", end="\n\n")
+    print("Collected probabilities for English model",en_model, sep="\n\n", end="\n\n")
