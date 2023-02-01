@@ -1,4 +1,5 @@
-import os.path
+import os
+
 from alphabets import alphabets
 from scan_model import en_model, es_model # Trained models
 
@@ -34,9 +35,16 @@ def log_likelihood(string:str, probs:dict):
     return result
 
 if __name__ == "__main__":
-    t1 = scan_test(os.path.join("Test_data","en_test.txt"), "en")
-    t2 = scan_test(os.path.join("Test_data","en_test.txt"), "es")
-    print(log_likelihood(t1, en_model), likelihood(t1, en_model))
-    print(log_likelihood(t1, es_model), likelihood(t1, es_model))
-    print(log_likelihood(t2, es_model), likelihood(t2, es_model))
-    print(log_likelihood(t2, en_model), likelihood(t2, en_model))
+    file_list = os.listdir("Test_data")
+    results = {"Correct":0, "Incorrect":0, "Total":len(file_list)}
+    for file in file_list:
+        file_path = os.path.join("Test_data", file)
+        data = scan_test(file_path)
+        test = log_likelihood(data, en_model), log_likelihood(data, es_model)
+        guess = "es" if test[0]<test[1] else "en"
+        if guess == file[:2]:
+            results["Correct"] += 1
+        else:
+            results["Incorrect"] += 1
+        print(file, guess, sep="---->",end="\n")
+    print(results)
